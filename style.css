@@ -16,3 +16,19 @@ input, button {
     margin: 10px;
     padding: 10px;
 }
+
+#forecast-result {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.forecast-item {
+    background: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 120px;
+}
