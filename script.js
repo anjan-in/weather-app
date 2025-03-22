@@ -29,15 +29,46 @@ async function getWeather(city) {
     }
 }
 
+// function displayWeather(data) {
+//     const weatherResult = document.getElementById("weather-result");
+//     weatherResult.innerHTML = `
+//         <h2>${data.name}, ${data.sys.country}</h2>
+//         <p>🌡️ Temperature: ${data.main.temp}°C</p>
+//         <p>💧 Humidity: ${data.main.humidity}%</p>
+//         <p>💨 Wind Speed: ${data.wind.speed} m/s</p>
+//     `;
+// }
+
 function displayWeather(data) {
     const weatherResult = document.getElementById("weather-result");
+    const iconCode = data.weather[0].icon;
+    const weatherDescription = data.weather[0].description;
+
+    // Set Dynamic Background
+    const backgroundClass = getBackgroundClass(data.weather[0].main);
+    document.body.className = backgroundClass;
+
     weatherResult.innerHTML = `
-        <h2>${data.name}, ${data.sys.country}</h2>
-        <p>🌡️ Temperature: ${data.main.temp}°C</p>
-        <p>💧 Humidity: ${data.main.humidity}%</p>
-        <p>💨 Wind Speed: ${data.wind.speed} m/s</p>
+        <h2 class="mb-3">${data.name}, ${data.sys.country}</h2>
+        <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${weatherDescription}" class="weather-icon">
+        <p class="lead">${weatherDescription.toUpperCase()}</p>
+        <p>🌡️ Temperature: <strong>${data.main.temp}°C</strong></p>
+        <p>💧 Humidity: <strong>${data.main.humidity}%</strong></p>
+        <p>💨 Wind Speed: <strong>${data.wind.speed} m/s</strong></p>
     `;
 }
+
+function getBackgroundClass(weather) {
+    switch (weather) {
+        case 'Clear': return 'bg-clear';
+        case 'Clouds': return 'bg-cloudy';
+        case 'Rain': return 'bg-rainy';
+        case 'Snow': return 'bg-snowy';
+        case 'Thunderstorm': return 'bg-thunderstorm';
+        default: return 'bg-default';
+    }
+}
+
 
 async function getForecast(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
