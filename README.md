@@ -18,7 +18,7 @@ A real-time weather application using OpenWeatherMap API. Displays current tempe
 ## 🔧 Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/weather-app.git
+   git clone https://github.com/anjan-in/weather-app.git
    cd weather-app
    ```
 2. Open `index.html` in your browser or use a live server extension.
@@ -35,23 +35,13 @@ A real-time weather application using OpenWeatherMap API. Displays current tempe
 ### GitHub Pages
 1. Push the code to GitHub.
 2. Enable GitHub Pages in repository settings.
-3. Access the deployed app via `https://yourusername.github.io/weather-app/`.
-
-### Netlify/Vercel
-1. Connect your GitHub repository to [Netlify](https://www.netlify.com/) or [Vercel](https://vercel.com/).
-2. Deploy the project in a few clicks.
+3. Access the deployed app via `[anjan-in.github.io/weather-app/](https://anjan-in.github.io/weather-app/)`.
 
 ## 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 💡 Contributions
 Contributions are welcome! Feel free to fork the repository and submit a pull request.
-
-## 🏆 Boost GitHub Achievements
-- **Make frequent commits** (show progress step by step).
-- **Create issues** (for bugs, enhancements, or discussions).
-- **Review PRs** (collaborate with others and contribute).
-- **Open pull requests** (even small improvements count!).
 
 ---
 🚀 Happy Coding!
