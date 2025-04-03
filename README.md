@@ -1,19 +1,26 @@
-# Weather App
+# Weather App 🌦️
 
 ## 🌦️ Overview
-A real-time weather application using OpenWeatherMap API. Displays current temperature, humidity, wind speed, and a 5-day forecast for any city.
+A modern, real-time Weather Application that provides current weather updates and a 7-day forecast for any city worldwide. Built with a sleek modern UI, it supports live location weather tracking and features a responsive design.
 
 ## 🚀 Features
-- Get real-time weather updates
-- View temperature, humidity, and wind speed
-- Search weather by city name
-- Display a 5-day weather forecast
-- Responsive UI with modern styling
+- Live Weather Updates – Get real-time temperature, humidity, wind speed, and atmospheric pressure.
+- 7-Day Weather Forecast – View an extended forecast for better planning.
+- Search by City – Enter any city name to fetch the latest weather details.
+- Live Location Support – Automatically detect and display weather for your current location.
+- Modern & Responsive UI – Clean, minimal, and optimized for all screen sizes.
+- Sunrise & Sunset Info – Know the exact time of sunrise and sunset in your location.
 
 ## 🛠️ Tech Stack
-- HTML, CSS, JavaScript
-- Bootstrap (for styling)
-- OpenWeatherMap API
+- Frontend: HTML, CSS, JavaScript, Bootstrap
+- API: OpenWeatherMap API
+- Icons: Weather Icons & Custom UI components
+
+## Screenshots 📸
+🔹 2nd iteration screenshot
+![Weather App UI](./assets/image/2nd_iteration.png)
+🔹 3rd iteration screenshot
+![Weather App UI](./assets/image/3rd-iteration-desktop.png.png)
 
 ## 🔧 Installation
 1. Clone the repository:
@@ -40,8 +47,17 @@ A real-time weather application using OpenWeatherMap API. Displays current tempe
 ## 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## Why This Project? 💡
+- 📌 Showcases frontend development skills using JavaScript, APIs, and UI/UX principles.
+
+- 🌍 Perfect for recruiters to see a real-world project using API integrations.
+
+- 🚀 Demonstrates responsive design and interactive UI components.
+
 ## 💡 Contributions
 Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+💙 Made with Passion by Anjan Sen 🚀
 
 ---
 🚀 Happy Coding!
