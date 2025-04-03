@@ -20,7 +20,7 @@ A modern, real-time Weather Application that provides current weather updates an
 🔹 2nd iteration screenshot
 ![Weather App UI](./assets/image/2nd_iteration.png)
 🔹 3rd iteration screenshot
-![Weather App UI](./assets/image/3rd-iteration-desktop.png.png)
+![Weather App UI](./assets/image/3rd-iteration-desktop.png)
 
 ## 🔧 Installation
 1. Clone the repository:
