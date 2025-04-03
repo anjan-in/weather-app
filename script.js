@@ -1,19 +1,69 @@
-const apiKey = "9a44d59d9bc56592b569b0b18eeca3a4";
+const apiKey = "9a44d59d9bc56592b569b0b18eeca3a4"; // Replace with your actual API key
 const searchButton = document.getElementById("search");
+const cityInput = document.getElementById("city");
+const weatherContainer = document.getElementById("weather-container");
+const forecastContainer = document.getElementById("forecast-container");
+const loader = document.getElementById("loader");
+const errorContainer = document.getElementById("error-container");
+const errorMessage = document.getElementById("error-message");
+const emptyState = document.getElementById("empty-state");
 
-searchButton.addEventListener("click", () => {
-    const city = document.getElementById("city").value;
-    if (city) {
-        getWeather(city);
-        getForecast(city);
-    } else {
-        alert("Please enter a city name.");
+// Initialize date
+document.getElementById("current-date").textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+// Event listeners
+searchButton.addEventListener("click", searchWeather);
+cityInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchWeather();
     }
 });
 
+function searchWeather() {
+    const city = cityInput.value.trim();
+    
+    if (!city) {
+        showError("Please enter a city name");
+        return;
+    }
+    
+    // Show loader
+    showLoader();
+    
+    // Get weather data
+    getWeather(city)
+        .then(() => getForecast(city))
+        .catch(err => {
+            console.error(err);
+            showError("Error fetching weather data. Please try again.");
+        });
+}
+
+function showLoader() {
+    weatherContainer.classList.add("d-none");
+    errorContainer.classList.add("d-none");
+    emptyState.classList.add("d-none");
+    loader.classList.remove("d-none");
+}
+
+function showWeather() {
+    loader.classList.add("d-none");
+    errorContainer.classList.add("d-none");
+    emptyState.classList.add("d-none");
+    weatherContainer.classList.remove("d-none");
+}
+
+function showError(message) {
+    loader.classList.add("d-none");
+    weatherContainer.classList.add("d-none");
+    emptyState.classList.add("d-none");
+    errorContainer.classList.remove("d-none");
+    errorMessage.textContent = message;
+}
+
 async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -21,41 +71,41 @@ async function getWeather(city) {
         if (data.cod === 200) {
             displayWeather(data);
         } else {
-            alert(`City not found: ${data.message}`);
+            showError(`City not found: ${data.message}`);
         }
     } catch (error) {
         console.error("Error fetching data:", error);
-        alert("Error fetching weather data.");
+        throw new Error("Error fetching weather data.");
     }
 }
 
-// function displayWeather(data) {
-//     const weatherResult = document.getElementById("weather-result");
-//     weatherResult.innerHTML = `
-//         <h2>${data.name}, ${data.sys.country}</h2>
-//         <p>🌡️ Temperature: ${data.main.temp}°C</p>
-//         <p>💧 Humidity: ${data.main.humidity}%</p>
-//         <p>💨 Wind Speed: ${data.wind.speed} m/s</p>
-//     `;
-// }
-
 function displayWeather(data) {
-    const weatherResult = document.getElementById("weather-result");
+    // Set city name
+    document.getElementById("city-name").textContent = `${data.name}, ${data.sys.country}`;
+    
+    // Set weather icon
     const iconCode = data.weather[0].icon;
     const weatherDescription = data.weather[0].description;
-
-    // Set Dynamic Background
+    document.getElementById("weather-icon-container").innerHTML = `
+        <img src="https://openweathermap.org/img/wn/${iconCode}@4x.png" alt="${weatherDescription}" class="weather-icon">
+    `;
+    
+    // Set temperature and description
+    document.getElementById("temperature").textContent = `${Math.round(data.main.temp)}°C`;
+    document.getElementById("weather-description").textContent = weatherDescription;
+    
+    // Set weather details
+    document.getElementById("feels-like").textContent = `${Math.round(data.main.feels_like)}°C`;
+    document.getElementById("humidity").textContent = `${data.main.humidity}%`;
+    document.getElementById("wind-speed").textContent = `${data.wind.speed} m/s`;
+    document.getElementById("pressure").textContent = `${data.main.pressure} hPa`;
+    
+    // Set dynamic background
     const backgroundClass = getBackgroundClass(data.weather[0].main);
     document.body.className = backgroundClass;
-
-    weatherResult.innerHTML = `
-        <h2 class="mb-3">${data.name}, ${data.sys.country}</h2>
-        <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="${weatherDescription}" class="weather-icon">
-        <p class="lead">${weatherDescription.toUpperCase()}</p>
-        <p>🌡️ Temperature: <strong>${data.main.temp}°C</strong></p>
-        <p>💧 Humidity: <strong>${data.main.humidity}%</strong></p>
-        <p>💨 Wind Speed: <strong>${data.wind.speed} m/s</strong></p>
-    `;
+    
+    // Show weather
+    showWeather();
 }
 
 function getBackgroundClass(weather) {
@@ -65,14 +115,13 @@ function getBackgroundClass(weather) {
         case 'Rain': return 'bg-rainy';
         case 'Snow': return 'bg-snowy';
         case 'Thunderstorm': return 'bg-thunderstorm';
-        default: return 'bg-default';
+        default: return '';
     }
 }
 
-
 async function getForecast(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
-
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -80,18 +129,18 @@ async function getForecast(city) {
         if (data.cod === "200") {
             displayForecast(data);
         } else {
-            alert(`Forecast data not found: ${data.message}`);
+            console.error(`Forecast data not found: ${data.message}`);
         }
     } catch (error) {
         console.error("Error fetching forecast data:", error);
-        alert("Error fetching forecast data.");
+        throw new Error("Error fetching forecast data.");
     }
 }
 
 function displayForecast(data) {
-    const forecastResult = document.getElementById("forecast-result");
-    forecastResult.innerHTML = "<h3>5-Day Forecast</h3>";
-
+    // Clear previous forecast
+    forecastContainer.innerHTML = "";
+    
     // Get only one forecast per day (12:00 PM)
     const dailyForecasts = {};
     data.list.forEach(entry => {
@@ -100,14 +149,24 @@ function displayForecast(data) {
             dailyForecasts[date] = entry;
         }
     });
-
+    
+    // Generate forecast items
     Object.values(dailyForecasts).forEach(day => {
-        forecastResult.innerHTML += `
-            <div class="forecast-item">
-                <p><strong>${new Date(day.dt * 1000).toDateString()}</strong></p>
-                <p>🌡️ Temp: ${day.main.temp}°C</p>
-                <p>🌥️ ${day.weather[0].description}</p>
-            </div>
+        const date = new Date(day.dt * 1000);
+        const formattedDate = date.toLocaleDateString("en-US", { weekday: 'short', month: 'short', day: 'numeric' });
+        const iconCode = day.weather[0].icon;
+        const description = day.weather[0].description;
+        const temp = Math.round(day.main.temp);
+        
+        const forecastItem = document.createElement("div");
+        forecastItem.className = "forecast-item";
+        forecastItem.innerHTML = `
+            <p class="forecast-date">${formattedDate}</p>
+            <img src="https://openweathermap.org/img/wn/${iconCode}.png" alt="${description}" class="forecast-icon">
+            <p class="forecast-temp">${temp}°C</p>
+            <p class="forecast-desc">${description}</p>
         `;
+        
+        forecastContainer.appendChild(forecastItem);
     });
 }
